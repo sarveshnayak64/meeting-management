@@ -16,10 +16,6 @@ exports.login = async (email, password) => {
         // email = sanitizeInput(email);
         // password = sanitizeInput(password);
 
-        return {
-            "status": false
-        }
-
         const query = "SELECT id,password,type FROM users WHERE email_id = ?";
         const [rows] = await promise_connection(query, [email]);
 
