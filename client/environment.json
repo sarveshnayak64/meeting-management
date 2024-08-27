@@ -1,1 +1,4 @@
-{"GOOGLE_CLIENT_ID" : "980010744499-04p9be2vsc5kpl7m761gps1dcj5deilq.apps.googleusercontent.com"}
+{
+    "GOOGLE_CLIENT_ID" : "980010744499-04p9be2vsc5kpl7m761gps1dcj5deilq.apps.googleusercontent.com",
+    "API_URL": "https://hotelmanagement-backend.netlify.app"
+}
