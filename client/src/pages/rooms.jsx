@@ -59,7 +59,7 @@ const Rooms = () => {
   const handleClose = () => setOpen(false);
 
   const fetchRooms = () =>{
-    axios.get('http://localhost:5000/rooms').then(data => {
+    axios.get('https://meeting-management.onrender.com/rooms').then(data => {
       console.log(data)
       setRows(data.data)
     })
@@ -69,7 +69,7 @@ const Rooms = () => {
   }
 
   const deleteRoom = (id) =>{
-    axios.delete('http://localhost:5000/rooms/'+id).then(data =>{
+    axios.delete('https://meeting-management.onrender.com/rooms/'+id).then(data =>{
       fetchRooms();
       setDeletedRoom(true)
       setTimeout(()=>{
@@ -85,7 +85,7 @@ const Rooms = () => {
   const createRoom = (e) =>{
     e.preventDefault();
 
-    axios.post('http://localhost:5000/rooms', {
+    axios.post('https://meeting-management.onrender.com/rooms', {
       name: name
     })
     .then(data => {

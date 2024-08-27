@@ -66,7 +66,7 @@ const Users = () => {
   const handleClose = () => setOpen(false);
 
   const fetchUsers = () =>{
-    axios.get('http://localhost:5000/user').then(data =>{
+    axios.get('https://meeting-management.onrender.com/user').then(data =>{
       setRows(data?.data)
       console.log(data)
     })
@@ -76,7 +76,7 @@ const Users = () => {
   }
 
   const deleteUser = (id) =>{
-    axios.delete('http://localhost:5000/user/'+id).then(data =>{
+    axios.delete('https://meeting-management.onrender.com/user/'+id).then(data =>{
       fetchUsers();
       setDeletedUser(true)
       setTimeout(()=>{
@@ -92,7 +92,7 @@ const Users = () => {
   const createUser = (e) =>{
     e.preventDefault();
 
-    axios.post('http://localhost:5000/user/create', {
+    axios.post('https://meeting-management.onrender.com/user/create', {
       email: email,
       password: password,
       name: name

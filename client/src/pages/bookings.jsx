@@ -64,7 +64,7 @@ const Bookings = () => {
 
   const fetchBookings = () => {
     let userId = ''
-    let apiUrl = 'http://localhost:5000/bookings/'
+    let apiUrl = 'https://meeting-management.onrender.com/bookings/'
     let userType = localStorage.getItem('type');
     if(userType != 'admin'){
       userId = localStorage.getItem('userId')
@@ -79,7 +79,7 @@ const Bookings = () => {
   }
 
   const fetchRooms = () => {
-    let apiUrl = 'http://localhost:5000/rooms/'
+    let apiUrl = 'https://meeting-management.onrender.com/rooms/'
     axios.get(apiUrl)
     .then(data => {
       setRooms(data.data)
@@ -92,7 +92,7 @@ const Bookings = () => {
     e.preventDefault()
     let userId = localStorage.getItem('userId')
 
-    axios.post('http://localhost:5000/bookings', {
+    axios.post('https://meeting-management.onrender.com/bookings', {
       roomId: selectedRoom,
       fromDate: fromDate,
       fromTime: fromTime,
@@ -117,7 +117,7 @@ const Bookings = () => {
     if(event_id != null){
       await deleteEventFromGoogleCalender(event_id ,id );
     }
-    axios.delete('http://localhost:5000/bookings/'+id).then(data =>{
+    axios.delete('https://meeting-management.onrender.com/bookings/'+id).then(data =>{
       fetchBookings();
       setDeletedBooking(true)
       setTimeout(()=>{
@@ -132,7 +132,7 @@ const Bookings = () => {
 
   const addEventToGoogleCalender = (id, room, from, to) => {
     let token = localStorage.getItem('google_token')
-    axios.post("http://localhost:5000/google/create-event", {token, id, room, from, to})
+    axios.post("https://meeting-management.onrender.com/google/create-event", {token, id, room, from, to})
     .then(data => {
       console.log('Event Created:', data.data);
       fetchBookings()
@@ -142,7 +142,7 @@ const Bookings = () => {
   const deleteEventFromGoogleCalender = async (eventId, id) => {
     try {
       const token = localStorage.getItem('google_token');
-      const response = await axios.post('http://localhost:5000/google/delete-event', { token , eventId, id });
+      const response = await axios.post('https://meeting-management.onrender.com/google/delete-event', { token , eventId, id });
       console.log('Event Created:', response.data);
       fetchBookings()
     } catch (error) {

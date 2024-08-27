@@ -1,7 +1,6 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import env from "../../environment.json"
 
 import axios from 'axios';
 
@@ -37,7 +36,7 @@ const Login = () => {
   const login = (e) => {
     e.preventDefault()
     setError('')
-    axios.post(env.API_URL+'/user/login', {
+    axios.post('https://meeting-management.onrender.com/user/login', {
       email: email,
       password: password
     })
@@ -76,7 +75,7 @@ const Login = () => {
         headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
       });
 
-      axios.post(env.API_URL+'/user/googleLogin',{
+      axios.post('https://meeting-management.onrender.com/user/googleLogin',{
         "email": userInfoResponse.data?.email,
         "name": userInfoResponse.data?.name,
         "token": tokenResponse.access_token
