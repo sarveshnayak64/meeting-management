@@ -60,6 +60,7 @@ const Users = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('')
   const [deletedUser, setDeletedUser] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
 
   const handleOpen = () => setOpen(true);
@@ -91,6 +92,7 @@ const Users = () => {
 
   const createUser = (e) =>{
     e.preventDefault();
+    setIsLoading(true)
 
     axios.post('https://meeting-management.onrender.com/user/create', {
       email: email,
@@ -98,6 +100,7 @@ const Users = () => {
       name: name
     })
     .then(data => {
+      setIsLoading(false)
       console.log(data.data)
       if(data?.data?.status){
         setOpen(false)
@@ -107,6 +110,7 @@ const Users = () => {
       }
     })
     .catch(err => {
+      setIsLoading(false)
       setError('Failed to create user')
       console.log(err)
     })
@@ -165,6 +169,7 @@ const Users = () => {
         variant="outlined"
         fullWidth
         margin="normal"
+        required
         onChange={(val) => setName(val.target.value)}
       />
       <TextField
@@ -173,6 +178,7 @@ const Users = () => {
         fullWidth
         margin="normal"
         type="email"
+        required
         onChange={(val) => setEmail(val.target.value)}
       />
       <TextField
@@ -181,12 +187,14 @@ const Users = () => {
         fullWidth
         margin="normal"
         type="password"
+        required
         onChange={(val) => setPassword(val.target.value)}
       />
       <Button
         variant="contained"
         color="primary"
         type="submit"
+        disabled={isLoading}
       >
         Create
       </Button>

@@ -23,6 +23,7 @@ const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const checkLogin= () =>{
     let userEmail = localStorage.getItem('userEmail')
@@ -35,12 +36,14 @@ const Login = () => {
 
   const login = (e) => {
     e.preventDefault()
+    setIsLoading(true);
     setError('')
     axios.post('https://meeting-management.onrender.com/user/login', {
       email: email,
       password: password
     })
     .then(data=> {
+      setIsLoading(false)
       if(data?.data?.status){
         // setError('Success')
         localStorage.setItem('userEmail', email);
@@ -53,6 +56,7 @@ const Login = () => {
       console.log(data)
     })
     .catch(err => {
+      setIsLoading(false)
       console.log(err)
     })
     // navigate('/home')
@@ -80,6 +84,7 @@ const Login = () => {
         "name": userInfoResponse.data?.name,
         "token": tokenResponse.access_token
       }).then(data => {
+        console.log('datat', data)
         localStorage.setItem('userEmail', userInfoResponse.data?.email);
         localStorage.setItem('type', data?.data?.userType);
         localStorage.setItem('userId', data?.data?.userId);
@@ -110,6 +115,7 @@ const Login = () => {
   label="Email"
   variant="outlined"
   fullWidth
+  required
   type="email"
   margin="normal"
   onChange={(val) => setEmail(val.target.value)}
@@ -118,6 +124,7 @@ const Login = () => {
   label="Password"
   variant="outlined"
   fullWidth
+  required
   type="password"
   margin="normal"
   onChange={(val) => setPassword(val.target.value)}
@@ -127,12 +134,15 @@ const Login = () => {
   variant="contained"
   color="primary"
   type="submit"
+  disabled={isLoading}
 >
   Login
 </Button>
 <Button type="button"
   variant="contained"
-  color="success" onClick={() => googleLogin()}>Login with Google</Button>
+  color="success" onClick={() => googleLogin()}
+  disabled={isLoading}
+  >Login with Google</Button>
   </div>
 </form>
   </Box>;

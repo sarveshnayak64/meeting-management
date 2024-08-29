@@ -59,6 +59,7 @@ const Bookings = () => {
   const [error, setError] = useState('')
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -90,6 +91,7 @@ const Bookings = () => {
 
   const createBooking= (e) => {
     e.preventDefault()
+    setIsLoading(true);
     let userId = localStorage.getItem('userId')
 
     axios.post('https://meeting-management.onrender.com/bookings', {
@@ -100,6 +102,7 @@ const Bookings = () => {
       toTime: toTime,
       userId: userId
     }).then(data => {
+      setIsLoading(false)
       if(data.data.status){
         fetchBookings()
         setOpen(false);
@@ -108,6 +111,7 @@ const Bookings = () => {
       }
       console.log(data)
     }).catch(err => {
+      setIsLoading(false)
       console.log(err);
     })
 
@@ -227,6 +231,7 @@ const Bookings = () => {
   <Select
     labelId="demo-simple-select-label"
     id="demo-simple-select"
+    required
     value={selectedRoom}
     label="Room"
     onChange={(val) => setSelectedRoom(val.target.value)}
@@ -234,17 +239,18 @@ const Bookings = () => {
     {rooms.map(data => <MenuItem value={data.id} key={data.id}>{data.name}</MenuItem>)}
   </Select>
 </FormControl>
-<Typography fullWidth>From date and time:</Typography>
-<TextField type="date" value={fromDate} onChange={(e)=> setFromDate(e.target.value)} />
-<TextField type="time" value={fromTime} onChange={(e)=> setFromTime(e.target.value)} />
-<Typography fullWidth>To date and time:</Typography>
-<TextField type="date" value={toDate} onChange={(e)=> setToDate(e.target.value)}/>
-<TextField type="time" value={toTime} onChange={(e)=> setToTime(e.target.value)} />
+<Typography >From date and time:</Typography>
+<TextField required type="date" value={fromDate} onChange={(e)=> setFromDate(e.target.value)} />
+<TextField required type="time" value={fromTime} onChange={(e)=> setFromTime(e.target.value)} />
+<Typography >To date and time:</Typography>
+<TextField required type="date" value={toDate} onChange={(e)=> setToDate(e.target.value)}/>
+<TextField required type="time" value={toTime} onChange={(e)=> setToTime(e.target.value)} />
 <br/><br/>
       <Button
         variant="contained"
         color="primary"
         type="submit"
+        disabled={isLoading}
       >
         Create
       </Button>

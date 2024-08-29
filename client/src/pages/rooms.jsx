@@ -55,6 +55,8 @@ const Rooms = () => {
   const [name, setName] = useState('')
   const [open, setOpen] = useState(false);
   const [deletedRoom, setDeletedRoom] = useState(false)
+  const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -84,11 +86,13 @@ const Rooms = () => {
 
   const createRoom = (e) =>{
     e.preventDefault();
+    setIsLoading(true)
 
     axios.post('https://meeting-management.onrender.com/rooms', {
       name: name
     })
     .then(data => {
+      setIsLoading(false)
       console.log(data.data)
       if(data?.data?.status){
         setOpen(false)
@@ -98,6 +102,7 @@ const Rooms = () => {
       }
     })
     .catch(err => {
+      setIsLoading(false)
       setError('Failed to create user')
       console.log(err)
     })
@@ -145,11 +150,13 @@ const Rooms = () => {
       >
         <Box sx={style}>
         <Typography variant="h5">Create Room</Typography>
+        {error != '' && <Typography variant="body1" color="error">{error}</Typography>}
         <form onSubmit={createRoom}>
       <TextField
         label="Name"
         variant="outlined"
         fullWidth
+        required
         margin="normal"
         onChange={(val) => setName(val.target.value)}
       />
@@ -157,6 +164,7 @@ const Rooms = () => {
         variant="contained"
         color="primary"
         type="submit"
+        disabled={isLoading}
       >
         Create
       </Button>
